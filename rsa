@@ -1,33 +1,48 @@
 #!/usr/bin/python3
+def is_sqr(num):
+    """check if a number is squared"""
+    import math
 
-# library to get arguments
-import sys
+    a = int(math.sqrt(num))
+    if (a * a == num):
+        return (True)
+    return (False)
 
+def is_rsa(n):
+    """split the rsa of a number"""
+    import math
+    from prime import is_prime
 
-# fn unpack number factorial
-def fc():
-    """
-    function fc to search file to convert number and format n=p*q
-    """
-    try:
-        revfile = sys.argv[1]
-        with open(revfile) as f:
-            for revnumber in f:
-                revnumber = int(revnumber)
-                if revnumber % 2 == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // 2, 2))
-                        continue
-                i = 3
-                while i < revnumber // 2:
-                    if revnumber % i == 0:
-                        print("{}={}*{}".format(revnumber, revnumber // i, i))
-                        break
-                    i = i + 2
-                if i == (revnumber // 2) + 1:
-                    print("{}={}*{}".format(revnumber, revnumber, 1))
-    except (IndexError):
-        pass
+    a = int(math.sqrt(n)) + 1
+    while True:
+        b = a ** 2 - n
+        if is_sqr(b):
+            c = math.sqrt(b)
+            break
+        a = a + 1
+    #print(is_prime(a + c))
+    #print(is_prime(a - c))
+    print("{:d}={:d}*{:d}".format(int(n), int(a + c), int(a - c)))
 
+def start():
+    """where to run the file"""
+    import sys
 
-# autostart
-fc()
+    lis = sys.argv
+    if len(lis) < 2:
+        print("Error!: <USAGE> -> ./rsa filename")
+        exit(98)
+    f_name = ''
+    if len(lis) == 2:
+        f_name = lis[1]
+    if len(lis) == 3:
+        f_name = lis[2]
+    with open(f_name ) as file_in:
+        lines = []
+        for line in file_in:
+            lines.append(line);
+    if len(lines) == 0:
+        print("The file is empty")
+        exit(98)
+    is_rsa(int(lines[0]))
+start()
